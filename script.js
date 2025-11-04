@@ -1,53 +1,36 @@
-const form = document.getElementById("loginForm");
-const usernameInput = document.getElementById("username");
-const passwordInput = document.getElementById("password");
-const checkbox = document.getElementById("checkbox");
-const existingBtn = document.getElementById("existing");
+//your JS code here. If required.
+const form = document.getElementById("form");
+    const userName = document.getElementById("username");
+    const password = document.getElementById("password");
+    const checkbox = document.getElementById("checkbox");
+    const existingBtn = document.getElementById("existing");
 
-// Check if credentials exist on load
-window.onload = function() {
-  const savedUsername = localStorage.getItem("username");
-  const savedPassword = localStorage.getItem("password");
-  if (savedUsername && savedPassword) {
-    existingBtn.style.display = "block";
-  }
-};
-
-// Handle form submission
-form.addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  const username = usernameInput.value.trim();
-  const password = passwordInput.value.trim();
-
-  if (!username || !password) return;
-
-  alert("Logged in as " + username);
-
-  if (checkbox.checked) {
-    // Save credentials
-    localStorage.setItem("username", username);
-    localStorage.setItem("password", password);
-  } else {
-    // Remove any saved credentials
-    localStorage.removeItem("username");
-    localStorage.removeItem("password");
-  }
-
-  // Toggle existing user button visibility
-  const savedUsername = localStorage.getItem("username");
-  const savedPassword = localStorage.getItem("password");
-  if (savedUsername && savedPassword) {
-    existingBtn.style.display = "block";
-  } else {
+    // Hide existing user button initially
     existingBtn.style.display = "none";
-  }
-});
 
-// Handle "Login as existing user"
-existingBtn.addEventListener("click", function() {
-  const savedUsername = localStorage.getItem("username");
-  if (savedUsername) {
-    alert("Logged in as " + savedUsername);
-  }
-});
+    // Show existing user button if credentials exist
+    if (localStorage.getItem("username") && localStorage.getItem("password")) {
+      existingBtn.style.display = "inline-block";
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const isChecked = checkbox.checked;
+      alert(`Logged in as ${userName.value}`);
+
+      if (isChecked) {
+        localStorage.setItem("username", userName.value);
+        localStorage.setItem("password", password.value);
+        existingBtn.style.display = "inline-block";
+      } else {
+        localStorage.removeItem("username");
+        localStorage.removeItem("password");
+        existingBtn.style.display = "none";
+      }
+    });
+
+    existingBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      alert(`Logged in as ${localStorage.getItem("username")}`);
+    });
